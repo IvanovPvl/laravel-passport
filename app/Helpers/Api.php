@@ -1,6 +1,6 @@
 <?php
 
-namespace Helpers;
+namespace App\Helpers;
 
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as BaseResponse;

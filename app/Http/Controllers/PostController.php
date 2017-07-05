@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Helpers\Api;
+use App\Helpers\Api;
 
 class PostController extends Controller
 {
