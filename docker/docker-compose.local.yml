@@ -7,7 +7,7 @@ services:
     volumes:
       - ../:/var/www
 
-  workspace:
+  lp_workspace:
     build:
       context: ./workspace
       args:
@@ -18,7 +18,7 @@ services:
       - application
     tty: true
 
-  php-fpm:
+  lp_php-fpm:
     build:
       context: ./php-fpm
     volumes_from:
@@ -26,13 +26,13 @@ services:
     expose:
       - "9000"
     links:
-      - workspace
+      - lp_workspace
 
-  nginx:
+  lp_nginx:
     build:
       context: ./nginx
       args:
-        - PHP_UPSTREAM=php-fpm
+        - PHP_UPSTREAM=lp_php-fpm
     volumes_from:
       - application
     volumes:
@@ -42,9 +42,9 @@ services:
       - "80:80"
       - "443:443"
     links:
-      - php-fpm
+      - lp_php-fpm
 
-  db:
+  lp_db:
     build:
       context: ./postgres
     environment:
@@ -52,10 +52,10 @@ services:
       - POSTGRES_USER=laravel-passport
       - POSTGRES_PASSWORD=laravel-passport
     volumes:
-      - db:/var/lib/postgresql/data
+      - lp_db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
 volumes:
-  db:
+  lp_db:
     driver: "local"

@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\User;
+//use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $numberOfUsers = $this->command->ask('How many users you need?', 10);
-        $users = factory(User::class, $numberOfUsers)->create();
+        $users = factory(\App\Models\User::class, $numberOfUsers)->create();
         $this->command->info('Users created.');
     }
 }
