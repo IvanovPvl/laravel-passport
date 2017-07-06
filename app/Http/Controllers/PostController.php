@@ -5,10 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Helpers\Api;
+use App\Models\Post;
+use App\Data\Repository;
 
 class PostController extends Controller
 {
     use Api;
+
+    /** @var Repository */
+    protected $model;
+
+    /**
+     * PostController constructor.
+     *
+     * @param Post $post
+     */
+    public function __construct(Post $post)
+    {
+        $this->model = new Repository($post);
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -17,17 +33,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $this->model->with('comments')->latest()->paginate();
     }
 
     /**
@@ -38,7 +44,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->beforeCreate($request);
+        $fillable = $this->model->getModel()->fillable;
+
+        return $request->user()
+            ->posts()
+            ->create($request->only($fillable));
     }
 
     /**
@@ -49,18 +60,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return $this->model->with('user')->findOrFail($id);
     }
 
     /**
@@ -72,17 +72,29 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->beforeUpdate($request);
+        $fillable = $this->model->getModel()->fillable;
+
+        if (!$this->model->update($id, $request->only($fillable))) {
+            return $this->errorBadRequest('Unable to update.');
+        }
+
+        return $this->model->find($id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int     $id
+     * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if (!$request->user()->posts()->find($id)) {
+            return $this->errorNotFound('Post not found for this user.');
+        }
+
+        return $this->model->delete($id) ? $this->noContent() : $this->errorBadRequest();
     }
 }
