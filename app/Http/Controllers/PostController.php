@@ -23,7 +23,8 @@ class PostController extends Controller
     public function __construct(Post $post)
     {
         $this->model = new Repository($post);
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+//        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api');
     }
 
     /**
