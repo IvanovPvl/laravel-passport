@@ -23,8 +23,7 @@ class PostController extends Controller
     public function __construct(Post $post)
     {
         $this->model = new Repository($post);
-//        $this->middleware('auth:api', ['except' => ['index', 'show']]);
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
     }
 
     /**
@@ -34,7 +33,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return $this->model->with('comments')->latest()->paginate();
+//        return $this->model->with('comments')->latest()->paginate();
+        return $this->model->paginate();
     }
 
     /**
