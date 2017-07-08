@@ -20,7 +20,7 @@
             </div>
         </div>
         <div v-for="post in posts.data" class="posts">
-            <post :post="post"></post>
+            <post :post="post" v-on:postDeleted="postDeleted"></post>
         </div>
     </div>
 </template>
@@ -51,7 +51,7 @@
         return Laravel.hasOwnProperty('Auth');
       },
       savePost() {
-        let vm = this;
+        const vm = this;
         vm.commenting = true;
 
         axios.post('/api/posts', {
@@ -69,6 +69,9 @@
           console.error(err);
           vm.commenting = false;
         })
+      },
+      postDeleted(data) {
+        this.posts.data = this.posts.data.filter(post => post.id != data.id);
       }
     }
   }

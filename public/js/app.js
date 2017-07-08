@@ -11405,9 +11405,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['post']
+  props: ['post'],
+  methods: {
+    canDeletePost: function canDeletePost() {
+      return Laravel.Auth !== undefined && Laravel.Auth.id == this.post.user_id;
+    },
+    deletePost: function deletePost(id) {
+      var vm = this;
+      axios.delete('/api/posts/' + id).then(function () {
+        vm.$emit('postDeleted', { id: id });
+      }).catch(function (err) {
+        console.error(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -11489,6 +11503,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (err) {
         console.error(err);
         vm.commenting = false;
+      });
+    },
+    postDeleted: function postDeleted(data) {
+      this.posts.data = this.posts.data.filter(function (post) {
+        return post.id != data.id;
       });
     }
   }
@@ -41744,6 +41763,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('post', {
       attrs: {
         "post": post
+      },
+      on: {
+        "postDeleted": _vm.postDeleted
       }
     })], 1)
   })], 2)
@@ -41774,7 +41796,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }, [_vm._v("\n                " + _vm._s(_vm.post.title) + "\n            ")])], 1), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _c('span', [_vm._v("Posted by " + _vm._s(_vm.post.user.name) + " at " + _vm._s(_vm.post.created_at))])])])
+  }, [_vm._v("\n                " + _vm._s(_vm.post.title) + "\n            ")])], 1), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _c('div', [_vm._v("Posted by " + _vm._s(_vm.post.user.name) + " at " + _vm._s(_vm.post.created_at))]), _vm._v(" "), (_vm.canDeletePost()) ? _c('button', {
+    staticClass: "btn btn-sm btn-danger",
+    on: {
+      "click": function($event) {
+        _vm.deletePost(_vm.post.id)
+      }
+    }
+  }, [_vm._v("Delete")]) : _vm._e()])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
