@@ -2,7 +2,7 @@
 
 namespace App\Data;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * Class Repository
@@ -10,15 +10,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Repository
 {
-    /** @var Model */
+    /** @var BaseModel */
     protected $model;
 
     /**
      * Repository constructor.
      *
-     * @param Model $model
+     * @param BaseModel $model
      */
-    public function __construct(Model $model)
+    public function __construct(BaseModel $model)
     {
         $this->model = $model;
     }
@@ -119,7 +119,7 @@ class Repository
     /**
      * Get current model instance.
      *
-     * @return Model
+     * @return BaseModel
      */
     public function getModel()
     {
@@ -129,10 +129,10 @@ class Repository
     /**
      * Set model to work with.
      *
-     * @param Model $model
+     * @param BaseModel $model
      * @return $this
      */
-    public function setModel($model)
+    public function setModel(BaseModel $model)
     {
         $this->model = $model;
         return $this;

@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\{
+    Request,
+    Response
+};
 
 use App\Helpers\Api;
+use App\Models\Post;
 use App\Models\Comment;
 use App\Data\Repository;
 
@@ -14,12 +16,9 @@ use App\Data\Repository;
  * Class CommentController
  * @package App\Http\Controllers
  */
-class CommentController extends Controller
+class CommentController extends ApiController
 {
     use Api;
-
-    /** @var Repository */
-    protected $model;
 
     /**
      * CommentController constructor.
@@ -38,7 +37,7 @@ class CommentController extends Controller
      * @param int $postId
      * @return \Illuminate\Http\Response|mixed
      */
-    public function index($postId)
+    public function index(int $postId): Response
     {
         return $this->model
             ->where('post_id', $postId)
@@ -54,7 +53,7 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, int $postId)
+    public function store(Request $request, int $postId): Response
     {
             $this->beforeCreate($request);
             $fillable = $this->model->getModel()->fillable;
@@ -76,7 +75,7 @@ class CommentController extends Controller
      * @param int     $commentId
      * @return \Illuminate\Http\Response|mixed
      */
-    public function destroy(Request $request, int $postId, int $commentId)
+    public function destroy(Request $request, int $postId, int $commentId): Response
     {
         if (!$request->user()->comments()->find($commentId)) {
             return $this->errorNotFound('Comment not found for this user.');

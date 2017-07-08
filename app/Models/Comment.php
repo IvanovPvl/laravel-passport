@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * Class Comment
  * @package App\Models
  */
-class Comment extends Model
+class Comment extends BaseModel
 {
     protected $fillable = ['content', 'post_id', 'user_id'];
 
@@ -16,7 +14,7 @@ class Comment extends Model
      * @param  bool $forUpdate
      * @return array
      */
-    public function getValidationRules($forUpdate = false)
+    public function getValidationRules(bool $forUpdate = false): array
     {
         $createRule = [
             'content' => 'required',

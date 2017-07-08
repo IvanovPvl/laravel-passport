@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * Class Post
  * @package App\Models
  */
-class Post extends Model
+class Post extends BaseModel
 {
     protected $fillable = ['title', 'content', 'user_id'];
 
@@ -16,7 +14,7 @@ class Post extends Model
      * @param  bool $forUpdate
      * @return array
      */
-    public function getValidationRules($forUpdate = false)
+    public function getValidationRules(bool $forUpdate = false): array
     {
         $createRule = [
             'title'   => 'required|max:200',

@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\{
+    Request,
+    Response
+};
 
 use App\Helpers\Api;
 use App\Models\Post;
@@ -12,12 +15,9 @@ use App\Data\Repository;
  * Class PostController
  * @package App\Http\Controllers
  */
-class PostController extends Controller
+class PostController extends ApiController
 {
     use Api;
-
-    /** @var Repository */
-    protected $model;
 
     /**
      * PostController constructor.
@@ -35,7 +35,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): Response
     {
         return $this->model
             ->with('user')
@@ -49,7 +49,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         $this->beforeCreate($request);
         $fillable = $this->model->getModel()->fillable;
@@ -64,10 +64,10 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id): Response
     {
         return $this->model->with(['user', 'comments.user'])->findOrFail($id);
     }
@@ -79,7 +79,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): Response
     {
         $this->beforeUpdate($request);
         $fillable = $this->model->getModel()->fillable;
@@ -98,7 +98,7 @@ class PostController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, int $id): Response
     {
         if (!$request->user()->posts()->find($id)) {
             return $this->errorNotFound('Post not found for this user.');
