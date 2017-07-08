@@ -41505,9 +41505,9 @@ module.exports = Component.exports
 
 var Component = __webpack_require__(1)(
   /* script */
-  null,
+  __webpack_require__(74),
   /* template */
-  null,
+  __webpack_require__(75),
   /* scopeId */
   null,
   /* cssModules */
@@ -41515,6 +41515,20 @@ var Component = __webpack_require__(1)(
 )
 Component.options.__file = "/var/www/resources/assets/js/components/page/PostDetailPage.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] PostDetailPage.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-cbef9bde", Component.options)
+  } else {
+    hotAPI.reload("data-v-cbef9bde", Component.options)
+  }
+})()}
 
 module.exports = Component.exports
 
@@ -44104,6 +44118,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['post']
@@ -44151,14 +44171,50 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "jumbotron"
-  }, [_c('h3', [_vm._v(_vm._s(_vm.post.title))])])])
+    staticClass: "jumbotron post"
+  }, [_c('h3', [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'PostDetailPage',
+        params: {
+          id: _vm.post.id
+        }
+      }
+    }
+  }, [_vm._v("\n                " + _vm._s(_vm.post.title) + "\n            ")])], 1), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _c('span', [_vm._v("Posted by " + _vm._s(_vm.post.user.name) + " at " + _vm._s(_vm.post.created_at))])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-6856d042", module.exports)
+  }
+}
+
+/***/ }),
+/* 74 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c("div")
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-cbef9bde", module.exports)
   }
 }
 

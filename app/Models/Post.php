@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Post
+ * @package App\Models
+ */
 class Post extends Model
 {
     public function getValidationRules($forUpdate = false)
@@ -29,5 +33,13 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

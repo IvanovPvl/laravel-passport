@@ -8,6 +8,10 @@ use App\Helpers\Api;
 use App\Models\Post;
 use App\Data\Repository;
 
+/**
+ * Class PostController
+ * @package App\Http\Controllers
+ */
 class PostController extends Controller
 {
     use Api;
@@ -33,8 +37,10 @@ class PostController extends Controller
      */
     public function index()
     {
-//        return $this->model->with('comments')->latest()->paginate();
-        return $this->model->paginate();
+        return $this->model
+            ->with('user')
+            ->latest()
+            ->paginate();
     }
 
     /**

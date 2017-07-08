@@ -12,7 +12,7 @@ trait Api
      *
      * @return Response
      */
-    public function noContent()
+    public function noContent(): Response
     {
         return (new Response())->setStatusCode(BaseResponse::HTTP_NO_CONTENT);
     }
@@ -24,7 +24,7 @@ trait Api
      * @param null $content
      * @return Response
      */
-    public function created($location = null, $content = null)
+    public function created($location = null, $content = null): Response
     {
         $response = new Response($content);
         $response->setStatusCode(BaseResponse::HTTP_CREATED);
@@ -42,7 +42,7 @@ trait Api
      * @param $statusCode
      * @return mixed
      */
-    public function error($message, $statusCode)
+    public function error($message, $statusCode): Response
     {
         return response()->json(['error' => $message], $statusCode);
     }
@@ -53,7 +53,7 @@ trait Api
      * @param string $message
      * @return mixed
      */
-    public function errorNotFound($message = 'Not Found.')
+    public function errorNotFound($message = 'Not Found.'): Response
     {
         return $this->error($message, BaseResponse::HTTP_NOT_FOUND);
     }
@@ -64,7 +64,7 @@ trait Api
      * @param string $message
      * @return mixed
      */
-    public function errorBadRequest($message = 'Bad Request.')
+    public function errorBadRequest($message = 'Bad Request.'): Response
     {
         return $this->error($message, BaseResponse::HTTP_BAD_REQUEST);
     }
@@ -75,7 +75,7 @@ trait Api
      * @param string $message
      * @return mixed
      */
-    public function errorForbidden($message = 'Forbidden.')
+    public function errorForbidden($message = 'Forbidden.'): Response
     {
         return $this->error($message, BaseResponse::HTTP_FORBIDDEN);
     }
@@ -86,7 +86,7 @@ trait Api
      * @param string $message
      * @return mixed
      */
-    public function errorInternal($message = 'Internal Error.')
+    public function errorInternal($message = 'Internal Error.'): Response
     {
         return $this->error($message, BaseResponse::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -97,7 +97,7 @@ trait Api
      * @param string $message
      * @return mixed
      */
-    public function errorUnauthorized($message = 'Unauthorized.')
+    public function errorUnauthorized($message = 'Unauthorized.'): Response
     {
         return $this->error($message, BaseResponse::HTTP_UNAUTHORIZED);
     }
@@ -108,7 +108,7 @@ trait Api
      * @param string $message
      * @return mixed
      */
-    public function errorMethodNotAllowed($message = 'Method Not Allowed.')
+    public function errorMethodNotAllowed($message = 'Method Not Allowed.'): Response
     {
         return $this->error($message, BaseResponse::HTTP_METHOD_NOT_ALLOWED);
     }
