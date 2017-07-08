@@ -1,4 +1,7 @@
 <template>
+    <div class="container">
+        <post-detail :post="post"></post-detail>
+    </div>
 </template>
 
 <script>
@@ -7,7 +10,9 @@
       data() {
         return {
           post: {
-            data: []
+            user: {
+              name: null
+            }
           }
         }
       },

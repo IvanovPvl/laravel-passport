@@ -12,6 +12,10 @@ class Post extends Model
 {
     protected $fillable = ['title', 'content', 'user_id'];
 
+    /**
+     * @param  bool $forUpdate
+     * @return array
+     */
     public function getValidationRules($forUpdate = false)
     {
         $createRule = [
@@ -42,6 +46,6 @@ class Post extends Model
      */
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'DESC');
     }
 }

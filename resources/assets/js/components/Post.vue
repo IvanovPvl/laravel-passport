@@ -6,7 +6,6 @@
                     {{ post.title }}
                 </router-link>
             </h3>
-            <p>{{ post.content }}</p>
             <div>Posted by {{ post.user.name }} at {{ post.created_at }}</div>
             <button v-if="canDeletePost()" v-on:click="deletePost(post.id)" class="btn btn-sm btn-danger">Delete</button>
         </div>

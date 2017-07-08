@@ -5,17 +5,17 @@
                 <form class="new-post" v-if="canCreatePost()" @submit.prevent="savePost()" method="post" action="">
                     <div class="form-group">
                         <label for="post-title">Title</label>
-                        <input v-model="newComment.title" type="text" class="form-control" id="post-title" placeholder="Input title" required>
+                        <input v-model="newPost.title" type="text" class="form-control" id="post-title" placeholder="Input title" required>
                     </div>
                     <div class="form-group">
                         <label for="post-content">Content</label>
-                        <textarea rows="3" v-model="newComment.content" class="form-control" id="post-content" placeholder="Input content" required></textarea>
+                        <textarea rows="3" v-model="newPost.content" class="form-control" id="post-content" placeholder="Input content" required></textarea>
                     </div>
-                    <button class="btn btn-sm btn-info" :disabled="!newComment.title || !newComment.content || commenting" type="submit">Comment</button>
+                    <button class="btn btn-sm btn-info" :disabled="!newPost.title || !newPost.content || posting" type="submit">Comment</button>
                 </form>
 
                 <div v-if="!canCreatePost()">
-                    Please <a class="btn btn-sx btn-primary" href="/login">login</a> to create post.
+                    Please <a class="btn btn-sm btn-primary" href="/login">login</a> to create post.
                 </div>
             </div>
         </div>
@@ -32,11 +32,11 @@
         posts: {
           data: []
         },
-        newComment: {
+        newPost: {
           title: null,
           content: null,
         },
-        commenting: false,
+        posting: false,
       }
     },
     mounted() {
@@ -52,22 +52,22 @@
       },
       savePost() {
         const vm = this;
-        vm.commenting = true;
+        vm.posting = true;
 
         axios.post('/api/posts', {
-          title: vm.newComment.title,
-          content: vm.newComment.content,
+          title: vm.newPost.title,
+          content: vm.newPost.content,
           'user_id': Laravel.Auth.id,
         }).then(res => {
-          vm.newComment = {
+          vm.newPost = {
             title: null,
             content: null,
           };
           vm.posts.data.unshift(res.data);
-          vm.commenting = false;
+          vm.posting = false;
         }).catch(err => {
           console.error(err);
-          vm.commenting = false;
+          vm.posting = false;
         })
       },
       postDeleted(data) {

@@ -69,7 +69,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return $this->model->with(['user', 'comments'])->findOrFail($id);
+        return $this->model->with(['user', 'comments.user'])->findOrFail($id);
     }
 
     /**

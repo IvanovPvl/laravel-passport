@@ -66,7 +66,7 @@ class Repository
      */
     public function create(array $attributes)
     {
-        return $this->create($attributes);
+        return $this->model->create($attributes);
     }
 
     /**
@@ -102,6 +102,18 @@ class Repository
     public function with($relations)
     {
         return $this->model->with($relations);
+    }
+
+    /**
+     * Apply where condition.
+     *
+     * @param $attribute
+     * @param $value
+     * @return mixed
+     */
+    public function where($attribute, $value)
+    {
+        return $this->model->where($attribute, $value);
     }
 
     /**

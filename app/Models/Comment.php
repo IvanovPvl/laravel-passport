@@ -10,6 +10,29 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Comment extends Model
 {
+    protected $fillable = ['content', 'post_id', 'user_id'];
+
+    /**
+     * @param  bool $forUpdate
+     * @return array
+     */
+    public function getValidationRules($forUpdate = false)
+    {
+        $createRule = [
+            'content' => 'required',
+            'post_id' => 'required|integer',
+            'user_id' => 'required|integer',
+        ];
+
+        $updateRule = [
+            'content' => 'required',
+            'post_id' => 'required|integer',
+            'user_id' => 'required|integer',
+        ];
+
+        return $forUpdate ? $updateRule : $createRule;
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
