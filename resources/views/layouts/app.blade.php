@@ -73,6 +73,12 @@
     </div>
 
     <!-- Scripts -->
+    <script>
+        window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};
+        @if(Auth::check())
+            window.Laravel.Auth = {!! json_encode(Auth::user()) !!};
+        @endif
+    </script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

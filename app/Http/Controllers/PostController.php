@@ -54,9 +54,11 @@ class PostController extends Controller
         $this->beforeCreate($request);
         $fillable = $this->model->getModel()->fillable;
 
-        return $request->user()
+        $newPost = $request->user()
             ->posts()
             ->create($request->only($fillable));
+
+        return $this->model->with('user')->find($newPost->id);
     }
 
     /**
@@ -67,7 +69,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return $this->model->with('user')->findOrFail($id);
+        return $this->model->with(['user', 'comments'])->findOrFail($id);
     }
 
     /**

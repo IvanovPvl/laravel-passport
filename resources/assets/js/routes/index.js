@@ -17,6 +17,7 @@ export default new Router({
       path: '/post/:id',
       name: 'PostDetailPage',
       component: PostDetailPage,
+      props: true,
     }
   ]
 });
