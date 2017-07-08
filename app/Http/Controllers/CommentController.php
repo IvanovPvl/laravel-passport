@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,5 +66,27 @@ class CommentController extends Controller
             /** @var Comment $newComment */
             $newComment = $this->model->create($attributes);
             return $this->model->with('user')->find($newComment->id);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @param int     $postId
+     * @param int     $commentId
+     * @return \Illuminate\Http\Response|mixed
+     */
+    public function destroy(Request $request, int $postId, int $commentId)
+    {
+        if (!$request->user()->comments()->find($commentId)) {
+            return $this->errorNotFound('Comment not found for this user.');
+        }
+
+        $postRepository = new Repository(new Post());
+        if (!$postRepository->find($postId)->comments()->find($commentId)) {
+            return $this->errorNotFound('Comment not found for this post.');
+        }
+
+        return $this->model->delete($commentId) ? $this->noContent() : $this->errorBadRequest();
     }
 }

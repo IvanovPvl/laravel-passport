@@ -11496,6 +11496,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.error(err);
         vm.commenting = false;
       });
+    },
+    commentDeleted: function commentDeleted(data) {
+      this.post.comments = this.post.comments.filter(function (comment) {
+        return comment.id != data.id;
+      });
     }
   }
 });
@@ -41906,7 +41911,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('strong', [_vm._v("Comments:")]), _vm._v(" "), _vm._l((_vm.post.comments), function(comment) {
     return _c('div', [_c('comment', {
       attrs: {
-        "comment": comment
+        "comment": comment,
+        "post_id": _vm.post.id
+      },
+      on: {
+        "commentDeleted": _vm.commentDeleted
       }
     })], 1)
   })], 2), _vm._v(" "), _c('div', {
@@ -44598,9 +44607,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['comment']
+  props: ['comment', 'post_id'],
+  methods: {
+    canDeleteComment: function canDeleteComment() {
+      return Laravel.Auth != undefined && Laravel.Auth.id == this.comment.user.id;
+    },
+    deleteComment: function deleteComment(id) {
+      var vm = this;
+      axios.delete('/api/posts/' + this.post_id + '/comments/' + this.comment.id).then(function () {
+        vm.$emit('commentDeleted', { id: id });
+      }).catch(function (err) {
+        console.error(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -44644,7 +44667,14 @@ module.exports = Component.exports
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "comment"
-  }, [_c('div', [_vm._v(_vm._s(_vm.comment.content))]), _vm._v(" "), _c('div', [_vm._v("Commented by " + _vm._s(_vm.comment.user.name) + " at " + _vm._s(_vm.comment.created_at))])])
+  }, [_c('div', [_vm._v(_vm._s(_vm.comment.content))]), _vm._v(" "), _c('div', [_vm._v("Commented by " + _vm._s(_vm.comment.user.name) + " at " + _vm._s(_vm.comment.created_at))]), _vm._v(" "), (_vm.canDeleteComment()) ? _c('button', {
+    staticClass: "btn btn-sm btn-danger",
+    on: {
+      "click": function($event) {
+        _vm.deleteComment(_vm.comment.id)
+      }
+    }
+  }, [_vm._v("Delete")]) : _vm._e()])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

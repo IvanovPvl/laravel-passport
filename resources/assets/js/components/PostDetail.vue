@@ -9,7 +9,7 @@
         <div class="row">
             <strong>Comments:</strong>
             <div v-for="comment in post.comments">
-                <comment :comment="comment"></comment>
+                <comment :comment="comment" :post_id="post.id" v-on:commentDeleted="commentDeleted"></comment>
             </div>
         </div>
 
@@ -63,6 +63,9 @@
             vm.commenting = false;
           })
         },
+        commentDeleted(data) {
+          this.post.comments = this.post.comments.filter(comment => comment.id != data.id);
+        }
       }
     }
 </script>
